@@ -1,19 +1,15 @@
+/**
+ * description: 路由聚合页面
+ * @author Linlif
+ * createTime 2020/12/24/17:44
+ */
+
 const router = require('koa-router')()
 
-router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Koa 2!'
-  })
-})
+const user = require('./user')
+const pets = require('./pets')
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
-router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
-})
+router.use('/user', user.routes(), user.allowedMethods())
+router.use('/pets', pets.routes(), pets.allowedMethods())
 
 module.exports = router

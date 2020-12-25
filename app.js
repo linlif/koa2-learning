@@ -6,7 +6,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const index = require('./routes/index')
+const routers = require('./routes/index')
 const user = require('./routes/user')
 
 const model = require('./model');
@@ -36,9 +36,9 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-// routes
-app.use(index.routes(), index.allowedMethods())
-app.use(user.routes(), user.allowedMethods())
+
+// 初始化路由中间件
+app.use(routers.routes()).use(routers.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
