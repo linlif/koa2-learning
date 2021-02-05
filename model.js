@@ -16,6 +16,7 @@ for (let f of js_files) {
     module.exports[name] = require(__dirname + '/models/' + f);
 }
 
-module.exports.sync = () => {
-    seq.sync();
+module.exports.sync = async (values = {}) => {
+    console.log('values',values)
+    await seq.sync(values);
 };

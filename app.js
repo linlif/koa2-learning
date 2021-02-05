@@ -7,10 +7,9 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const routers = require('./routes/index')
-const user = require('./routes/user')
+// const user = require('./routes/user')
 
 const model = require('./model');
-// model.sync(); // 表同步
 let { User, Pet } = model;
 
 // error handler
@@ -46,6 +45,8 @@ app.on('error', (err, ctx) => {
 });
 
 !(async () => {
+  // await model.sync({ force: true }); // 表同步
+
   // 创建Modal
   // var Pet = sequelize.define('pet', {
   //   id: {
@@ -110,16 +111,16 @@ app.on('error', (err, ctx) => {
   let now = Date.now()
 
   // 插入数据
-  // var person = await User.create({
-  //   id: 'd-' + now,
-  //   name: 'Odie',
-  //   gender: false,
-  //   birth: '2008-08-08',
-  //   createdAt: now,
-  //   updatedAt: now,
-  //   version: 0
-  // });
-  // console.log('created: ' + JSON.stringify(person));
+  var person = await User.create({
+    // id: 'd-' + now,
+    name: 'Linif',
+    gender: false,
+    birth: '1993-03-20',
+    createdAt: now,
+    updatedAt: now,
+    version: 0
+  });
+  console.log('created: ' + JSON.stringify(person));
 
   // 插入数据
   // var pets = await Pet.create({
@@ -133,25 +134,27 @@ app.on('error', (err, ctx) => {
   // });
   // console.log('created: ' + JSON.stringify(pets));
 
-  var users = await User.findAll({
-    where: {
-      // name: 'Odie'
-    }
-  });
-  console.log(`find ${users.length} user:`);
-  for (let p of users) {
-    console.log(JSON.stringify(p));
-  }
+  // var users = await User.findAll({
+  //   where: {
+  //     // name: 'Odie'
+  //   }
+  // });
+  // console.log(`find ${users.length} user:`);
+  // for (let p of users) {
+  //   console.log(JSON.stringify(p));
+  // }
 
-  var pets = await Pet.findAll({
-    where: {
-      // name: 'Odie'
-    }
-  });
-  console.log(`find ${pets.length} pets:`);
-  for (let p of pets) {
-    console.log(JSON.stringify(p));
-  }
+  // var pets = await Pet.findAll({
+  //   where: {
+  //     // name: 'Odie'
+  //   }
+  // });
+  // console.log(`find ${pets.length} pets:`);
+  // for (let p of pets) {
+  //   console.log(JSON.stringify(p));
+  // }
+
+  // console.log('server start at http://localhost:3000')
 })();
 
 
