@@ -1,4 +1,4 @@
-const model = require('../model');
+const model = require('../../model');
 const router = require('koa-router')()
 
 let { Pet } = model;

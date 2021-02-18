@@ -111,16 +111,16 @@ app.on('error', (err, ctx) => {
   let now = Date.now()
 
   // 插入数据
-  var person = await User.create({
-    // id: 'd-' + now,
-    name: 'Linif',
-    gender: false,
-    birth: '1993-03-20',
-    createdAt: now,
-    updatedAt: now,
-    version: 0
-  });
-  console.log('created: ' + JSON.stringify(person));
+  // var person = await User.create({
+  //   // id: 'd-' + now,
+  //   name: 'Linif',
+  //   gender: false,
+  //   birth: '1993-03-20',
+  //   createdAt: now,
+  //   updatedAt: now,
+  //   version: 0
+  // });
+  // console.log('created: ' + JSON.stringify(person));
 
   // 插入数据
   // var pets = await Pet.create({

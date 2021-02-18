@@ -1,43 +1,21 @@
 const model = require('../model');
 const router = require('koa-router')();
+const { getUserInfo } = require('../services/user');
+const { SuccessModel, ErrorModel } = require('../dataModel/ResModel');
+const { userNameNotExit } = require('../dataModel/ErrorModel');
 
 let { User } = model;
 
-const userInfoController = async (ctx, next) => {
-    console.log(' ctx.request.query', ctx)
-
-    if (ctx.request.method == 'GET') {
-        const { id } = ctx.request.query;
-        const users = await User.findAll({
-            where: {
-                id
-            }
-        });
-        console.log(`find ${users.length} user:`);
-        for (let p of users) {
-            console.log(JSON.stringify(p));
-        }
-        ctx.body = {
-            success: true,
-            data: users
-        }
-    } else if (ctx.request.method == 'POST') {
-        console.log(' ctx.request.body', ctx.request.body)
-        const { id } = ctx.request.body;
-        const users = await User.findAll({
-            where: {
-                id
-            }
-        });
-        console.log(`find ${users.length} user:`);
-        for (let p of users) {
-            console.log(JSON.stringify(p));
-        }
-        ctx.body = {
-            success: true,
-            data: users
-        }
+const isUserExit = async (name) => {
+    const userData = await getUserInfo(name)
+    if (userData) {
+        console.log('userData~~~~', new SuccessModel(userData))
+        return new SuccessModel(userData)
     }
+
+    return new ErrorModel(userNameNotExit)
 }
 
-module.exports = userInfoController;
+module.exports = {
+    isUserExit
+};
