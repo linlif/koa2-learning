@@ -7,5 +7,9 @@ module.exports = {
     userNameNotExit: {
         errno: 1003,
         message: '用户名不存在！'
+    },
+    registerFailInfo: {
+        errno: 1002,
+        message: '注册失败'
     }
 }
