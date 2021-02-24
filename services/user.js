@@ -31,7 +31,6 @@ async function getUserInfo(name, password) {
         return res
     }
 
-    console.log('res666', res)
     return formatUser(res.dataValues)
 }
 

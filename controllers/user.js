@@ -1,11 +1,12 @@
-const model = require('../model');
-const router = require('koa-router')();
+
+const jwt = require('jsonwebtoken');
+
 const { getUserInfo, createUser } = require('../services/user');
 const { SuccessModel, ErrorModel } = require('../dataModel/ResModel');
-const { userNameNotExit, registerFailInfo, userNameIsExit } = require('../dataModel/ErrorModel');
-const doCrypto = require('../utils/cryp')
+const { userNameNotExit, registerFailInfo, userNameIsExit, loginFailInfo } = require('../dataModel/ErrorModel');
+const doCrypto = require('../utils/cryp');
+const { JWT_SECRET_KEY } = require('../conf/secretKeys');
 
-let { User } = model;
 
 /**
  * 判断用户名是否存在
@@ -29,7 +30,6 @@ const isUserExit = async (name) => {
  */
 const register = async ({ userName, password, gender }) => {
     const userInfo = await getUserInfo(userName)
-    console.log('userInfo~~~', userInfo)
     if (userInfo) {
         return new ErrorModel(userNameIsExit)
     } else {
@@ -41,7 +41,6 @@ const register = async ({ userName, password, gender }) => {
                 gender
             })
 
-            console.log('createUser--res', res)
             return new SuccessModel({ message: '注册成功！' })
         } catch (error) {
             console.log('register---', error)
@@ -50,7 +49,31 @@ const register = async ({ userName, password, gender }) => {
     }
 }
 
+/**
+ * 用户登录
+ * @param {Object} ctx koa2上下文
+ * @param {String} userName 用户名
+ * @param {String} password 密码
+ */
+const login = async (ctx, userName, password) => {
+    const userInfo = await getUserInfo(userName, doCrypto(password))
+    console.log('userInfo~~', userInfo)
+    if (!userInfo) {
+        // 登录失败
+        return new ErrorModel(loginFailInfo)
+    }
+
+    // if (ctx.session.userInfo == null) {
+    //     ctx.session.userInfo = userInfo
+    // }
+
+    const token = jwt.sign(userInfo, JWT_SECRET_KEY, { expiresIn: '1days' });
+
+    return new SuccessModel({ message: '登录成功', token })
+}
+
 module.exports = {
     isUserExit,
-    register
+    register,
+    login
 };

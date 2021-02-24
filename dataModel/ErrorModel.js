@@ -15,5 +15,13 @@ module.exports = {
     registerFailInfo: {
         errno: 1002,
         message: '注册失败'
+    },
+    jsonSchemaFailInfo: {
+        error: 1001,
+        message: '数据格式校验失败'
+    },
+    loginFailInfo: {
+        error: 1004,
+        message: '登录失败'
     }
 }
