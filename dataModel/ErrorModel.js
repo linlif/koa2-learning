@@ -8,6 +8,10 @@ module.exports = {
         errno: 1003,
         message: '用户名不存在！'
     },
+    userNameIsExit: {
+        errno: 1003,
+        message: '用户名已存在！'
+    },
     registerFailInfo: {
         errno: 1002,
         message: '注册失败'

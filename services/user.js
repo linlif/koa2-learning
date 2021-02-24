@@ -43,18 +43,19 @@ async function getUserInfo(name, password) {
  * @param {String} nickName 昵称
  */
 const createUser = ({ userName, password, gender = 3, nickName }) => {
+    console.log('password', password)
     const result = User.create({
-        userName,
+        name: userName,
         password,
         gender,
         nickName: nickName ? nickName : userName
     })
 
-    if (res == null) {
+    if (result == null) {
         return res
     }
 
-    return result.dataValues
+    return result
 }
 
 module.exports = {

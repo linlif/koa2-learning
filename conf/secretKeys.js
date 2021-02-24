@@ -4,5 +4,5 @@
  */
 
 module.exports = {
-    CRYPTO_SCRET_KEY = 'Dni193_5&*sd', // 加密秘钥
+    CRYPTO_SCRET_KEY: 'Dni193_5&*sd', // 加密秘钥
 }

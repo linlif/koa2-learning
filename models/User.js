@@ -23,7 +23,7 @@ var User = seq.define('User', {
     gender: BOOLEAN,
     birth: STRING(10),
     password: {
-        type: STRING(16),
+        type: STRING(50),
         allowNull: false,
         defaultValue: 123456
     },
