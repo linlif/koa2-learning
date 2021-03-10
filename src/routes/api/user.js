@@ -1,10 +1,7 @@
 const model = require('../../model');
 const router = require('koa-router')()
 
-let { User } = model;
-
-const { isUserExit, register, login } = require('../../controllers/user')
-const { loginController, checkLoginController } = require('../../controllers/login')
+const { isUserExit, register, login, checkLogin, changePassword } = require('../../controllers/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
 
@@ -28,7 +25,21 @@ router.post('/login', async (ctx, next) => {
     ctx.body = await login(ctx, userName, password)
 });
 
-router.post('/login', loginController);
-router.post('/checkLogin', checkLoginController);
+// 判断是否登录
+router.post('/checkLogin', async (ctx, next) => {
+    const { userName, password } = ctx.request.body
+    ctx.body = await checkLogin(ctx, userName, password)
+});
+
+// 修改密码
+router.post('/changePassword', async (ctx, next) => {
+    console.log('ctx.state', ctx.state)
+    const { password, newPassword } = ctx.request.body,
+        { name } = ctx.state.user;
+
+    console.log('name===', name)
+
+    ctx.body = await changePassword(name, password, newPassword)
+});
 
 module.exports = router

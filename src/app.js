@@ -5,11 +5,13 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
+const path = require('path')
+const jwt = require('koa-jwt')
 const routers = require('./routes/index')
-// const user = require('./routes/user')
+const model = require('./model')
+const koaStatic = require('koa-static')
+const { JWT_SECRET_KEY } = require('./conf/secretKeys')
 
-const model = require('./model');
 let { User, Pet } = model;
 
 // error handler
@@ -19,9 +21,19 @@ onerror(app)
 app.use(bodyparser({
   enableTypes: ['json', 'form', 'text']
 }))
+
 app.use(json())
+
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
+
+
+// jwt校验中间件
+app.use(jwt({ secret: JWT_SECRET_KEY })
+  .unless({ path: [/\/login/, /\/register/] }));
+
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'

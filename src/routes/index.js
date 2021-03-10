@@ -7,9 +7,9 @@
 const router = require('koa-router')()
 
 const user = require('./api/user')
-const pets = require('./api/pets')
+const utils = require('./api/utils')
 
 router.use('/user', user.routes(), user.allowedMethods())
-router.use('/pets', pets.routes(), pets.allowedMethods())
+router.use('/utils', utils.routes(), utils.allowedMethods())
 
 module.exports = router

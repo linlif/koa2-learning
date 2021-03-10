@@ -9,7 +9,7 @@ module.exports = {
         message: '用户名不存在！'
     },
     userNameIsExit: {
-        errno: 1003,
+        errno: 1004,
         message: '用户名已存在！'
     },
     registerFailInfo: {
@@ -21,7 +21,15 @@ module.exports = {
         message: '数据格式校验失败'
     },
     loginFailInfo: {
-        error: 1004,
+        error: 1005,
         message: '登录失败'
+    },
+    uploadFileSizeInfo: {
+        error: 1006,
+        message: '上传文件大小超出限制'
+    },
+    changePasswordFailInfo: {
+        error: 1007,
+        message: '修改密码失败'
     }
 }

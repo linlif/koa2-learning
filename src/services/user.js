@@ -57,7 +57,33 @@ const createUser = ({ userName, password, gender = 3, nickName }) => {
     return result
 }
 
+async function updateUser({ name, password }, { newPassword }) {
+    // 查询条件
+    let whereOpt = {
+        name,
+        password
+    }
+
+    console.log('whereOpt===', whereOpt)
+    const user = await User.findOne({
+        attributes: ['id', 'name', 'gender', 'birth'],
+        where: whereOpt
+    })
+
+    if (user == null) {
+        return user
+    }
+
+    user.password = password
+    const tt = await user.update({ password, where: { name } })
+
+    console.log('userult==', tt)
+
+    return user
+}
+
 module.exports = {
     getUserInfo,
-    createUser
+    createUser,
+    updateUser
 }
