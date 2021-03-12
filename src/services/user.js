@@ -57,29 +57,48 @@ const createUser = ({ userName, password, gender = 3, nickName }) => {
     return result
 }
 
-async function updateUser({ name, password }, { newPassword }) {
-    // 查询条件
-    let whereOpt = {
-        name,
-        password
+async function updateUser({ name, password }, { newPassword, gender, birth, avatar }) {
+    let whereOpt = {},
+        updatedData = {};
+
+    if (password && newPassword) {
+        updatedData.password = newPassword
+        whereOpt.password = password
+    }
+
+    if (name) {
+        updatedData.name = name
+        whereOpt.name = name
+    }
+
+    if (gender) {
+        updatedData.gender = gender
+    }
+
+    if (birth) {
+        updatedData.birth = birth
+    }
+
+    if (avatar) {
+        updatedData.avatar = avatar
     }
 
     console.log('whereOpt===', whereOpt)
     const user = await User.findOne({
-        attributes: ['id', 'name', 'gender', 'birth'],
+        attributes: ['id', 'name', 'gender', 'birth', 'avatar'],
         where: whereOpt
     })
 
+    // 找不到用户，直接返回null
     if (user == null) {
         return user
     }
 
-    user.password = password
-    const tt = await user.update({ password, where: { name } })
+    // 修改password并保存到数据库
+    user.password = newPassword
+    const tt = await user.save()
 
-    console.log('userult==', tt)
-
-    return user
+    return tt.dataValues
 }
 
 module.exports = {

@@ -5,5 +5,7 @@ module.exports = {
     BOOLEAN: Sequelize.BOOLEAN,
     BIGINT: Sequelize.BIGINT,
     NUMBER: Sequelize.NUMBER,
-    FLOAT: Sequelize.FLOAT
+    FLOAT: Sequelize.FLOAT,
+    INTEGER: Sequelize.INTEGER,
+    TEXT: Sequelize.TEXT
 };

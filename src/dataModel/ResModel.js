@@ -28,10 +28,11 @@ class BaseModel {
  * 成功的模块
  */
 class SuccessModel extends BaseModel {
-    constructor(data = {}) {
+    constructor({ errno, message, ...rest }) {
         super({
             errno: 0,
-            data
+            message,
+            ...rest
         })
     }
 }

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const { DataTypes } = Sequelize;
 const seq = require('../seq');
 
-const { STRING, BOOLEAN, BIGINT } = require('../types');
+const { STRING, BOOLEAN, BIGINT, INTEGER } = require('../types');
 
 // 创建Modal
 var User = seq.define('User', {
@@ -20,13 +20,14 @@ var User = seq.define('User', {
         allowNull: false,
         unique: true
     },
-    gender: BOOLEAN,
+    gender: INTEGER,
     birth: STRING(10),
     password: {
         type: STRING(50),
         allowNull: false,
         defaultValue: 123456
     },
+    avatar: STRING(50),
     createdAt: BIGINT,
     updatedAt: BIGINT,
     version: BIGINT
