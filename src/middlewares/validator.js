@@ -14,10 +14,10 @@ const genValidator = (validateFn = () => { }) => {
     const validator = async (ctx, next) => {
         const data = ctx.request.body
         const error = validateFn(data)
-
         // 验证失败
         if (error) {
-            ctx.body = new ErrorModel(jsonSchemaFailInfo)
+            console.log('validateFn--error', error)
+            ctx.body = new ErrorModel({ ...jsonSchemaFailInfo, error })
             return
         }
 

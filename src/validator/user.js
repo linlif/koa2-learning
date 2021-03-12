@@ -17,7 +17,8 @@ const schema = {
         },
         gender: {
             type: 'number',
-            minimum: 1
+            minimum: 1,
+            maximum: 1
         },
         birth: {
             type: 'string'

@@ -27,12 +27,9 @@ var User = seq.define('User', {
         allowNull: false,
         defaultValue: 123456
     },
-    avatar: STRING(50),
-    createdAt: BIGINT,
-    updatedAt: BIGINT,
-    version: BIGINT
+    avatar: STRING(50)
 }, {
-    timestamps: false
+    // timestamps: false
 });
 
 // (async () => {

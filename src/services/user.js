@@ -41,9 +41,9 @@ async function getUserInfo(name, password) {
  * @param {String} gender 性别 (1、男，2、女， 3、保密)
  * @param {String} nickName 昵称
  */
-const createUser = ({ userName, password, gender = 3, nickName }) => {
+const createUser = async ({ userName, password, gender = 3, nickName }) => {
     console.log('password', password)
-    const result = User.create({
+    const result = await User.create({
         name: userName,
         password,
         gender,
@@ -54,7 +54,7 @@ const createUser = ({ userName, password, gender = 3, nickName }) => {
         return res
     }
 
-    return result
+    return result.dataValues
 }
 
 async function updateUser({ name, password }, { newPassword, gender, birth, avatar }) {

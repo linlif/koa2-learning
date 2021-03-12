@@ -31,5 +31,9 @@ module.exports = {
     changePasswordFailInfo: {
         errno: 1007,
         message: '修改密码失败！'
+    },
+    crateBlogFail: {
+        errno: 1008,
+        message: '创建微博失败！'
     }
 }

@@ -41,13 +41,13 @@ const register = async ({ userName, password, gender }) => {
     } else {
         // 调用注册的service
         try {
-            const res = await createUser({
+            const userData = await createUser({
                 userName,
                 password: doCrypto(password),
                 gender
             })
 
-            return new SuccessModel({ message: '注册成功！' })
+            return new SuccessModel({ message: '注册成功！', data: userData })
         } catch (error) {
             console.log('register---', error)
             return new ErrorModel({ ...registerFailInfo, error: error.message })
