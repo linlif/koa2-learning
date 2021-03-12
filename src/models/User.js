@@ -6,15 +6,15 @@ const { STRING, BOOLEAN, BIGINT, INTEGER } = require('../types');
 
 // 创建Modal
 var User = seq.define('User', {
-    id: {
-        type: Sequelize.INTEGER(50),
-        primaryKey: true,
-        autoIncrement: true,
-        // type: DataTypes.UUID,
-        unique: true,
-        allowNull: false,
-        // defaultValue: Sequelize.UUIDV4 // Or Sequelize.UUIDV1
-    },
+    // id: {
+    //     type: Sequelize.INTEGER(50),
+    //     primaryKey: true,
+    //     autoIncrement: true,
+    //     // type: DataTypes.UUID,
+    //     unique: true,
+    //     allowNull: false,
+    //     // defaultValue: Sequelize.UUIDV4 // Or Sequelize.UUIDV1
+    // },
     name: {
         type: STRING(100),
         allowNull: false,

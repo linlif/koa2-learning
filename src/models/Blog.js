@@ -1,11 +1,10 @@
 const Sequelize = require('sequelize');
-const { DataTypes } = Sequelize;
 const seq = require('../seq');
 
 const { STRING, BOOLEAN, BIGINT, INTEGER, TEXT } = require('../types');
 
 // 创建Modal
-var User = seq.define('User', {
+var Blog = seq.define('Blog', {
     userId: {
         type: INTEGER,
         allowNull: false,
@@ -22,10 +21,4 @@ var User = seq.define('User', {
     }
 });
 
-// (async () => {
-//     // 同步模型（表）
-//     await User.sync();
-//     console.log("User模型表刚刚(重新)创建！");
-// })();
-
-module.exports = User;
+module.exports = Blog;

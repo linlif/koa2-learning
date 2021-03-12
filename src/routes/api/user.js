@@ -1,4 +1,3 @@
-const model = require('../../model');
 const router = require('koa-router')()
 
 const { isUserExit, register, login, checkLogin, changePassword, logout } = require('../../controllers/user')

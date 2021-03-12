@@ -1,4 +1,3 @@
-const model = require('../../model');
 const router = require('koa-router')()
 const koaForm = require("formidable-upload-koa");
 const path = require('path')

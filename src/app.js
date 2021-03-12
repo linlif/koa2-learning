@@ -8,11 +8,8 @@ const logger = require('koa-logger')
 const path = require('path')
 const jwt = require('koa-jwt')
 const routers = require('./routes/index')
-const model = require('./model')
 const koaStatic = require('koa-static')
 const { JWT_SECRET_KEY } = require('./conf/secretKeys')
-
-let { User, Pet } = model;
 
 // error handler
 onerror(app)

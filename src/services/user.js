@@ -4,7 +4,7 @@
  * @author linlif
  */
 
-const { User } = require('../model');
+const { User } = require('../models');
 const { formatUser } = require('./_format');
 
 /**
