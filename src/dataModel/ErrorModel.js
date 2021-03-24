@@ -39,5 +39,9 @@ module.exports = {
     loginCheckFailInfo: {
         errno: 1009,
         message: '尚未登录'
+    },
+    queryBlogFail: {
+        errno: 1010,
+        message: '查询个人微博列表失败'
     }
 }

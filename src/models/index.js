@@ -12,7 +12,8 @@ const Blog =  require('./Blog');
 //     foreignKey: 'userId'
 // });
 Blog.belongsTo(User, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    as: 'user'
 });
 
 module.exports = {
