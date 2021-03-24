@@ -10,6 +10,9 @@ const jwt = require('koa-jwt')
 const routers = require('./routes/index')
 const koaStatic = require('koa-static')
 const { JWT_SECRET_KEY } = require('./conf/secretKeys')
+const session = require("koa-session2");
+const { loginCheck } = require('./middlewares/loginChecks')
+const Store = require('./Store')
 
 // error handler
 onerror(app)
@@ -26,10 +29,20 @@ app.use(logger())
 app.use(koaStatic(__dirname + '/public'))
 app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
+app.use(session({
+  key: "SESSIONID",   //default "koa:sess"
+  store: new Store()
+}));
+
+// session登录状态校验redis+session
+app.use(loginCheck.unless({
+  path: [/\/login/, /\/register/, /\/isExit/]
+}))
+
 
 // jwt校验中间件
-app.use(jwt({ secret: JWT_SECRET_KEY })
-  .unless({ path: [/\/login/, /\/register/] }));
+// app.use(jwt({ secret: JWT_SECRET_KEY })
+//   .unless({ path: [/\/login/, /\/register/] }));
 
 
 app.use(views(__dirname + '/views', {

@@ -22,7 +22,7 @@ const { JWT_SECRET_KEY } = require('../conf/secretKeys');
 const isUserExit = async (name) => {
     const userData = await getUserInfo(name)
     if (userData) {
-        return new SuccessModel(userData)
+        return new SuccessModel({ message: '用户名已存在' })
     }
 
     return new ErrorModel(userNameNotExit)
@@ -69,9 +69,13 @@ const login = async (ctx, userName, password) => {
         return new ErrorModel({ ...loginFailInfo, error: '账号或密码错误！' })
     }
 
-    const token = jwt.sign({ ...userInfo }, JWT_SECRET_KEY, { expiresIn: 60 * 60 }); // 数字表示秒（120 is equal to 120s），字符串的数字表示毫秒（"120" is equal to "120ms"）
+    // const token = jwt.sign({ ...userInfo }, JWT_SECRET_KEY, { expiresIn: 60 * 60 }); // 数字表示秒（120 is equal to 120s），字符串的数字表示毫秒（"120" is equal to "120ms"）
 
-    return new SuccessModel({ message: '登录成功', token })
+    if (ctx.session && ctx.session.userInfo == null) {
+        ctx.session.userInfo = userInfo
+    }
+    console.log('ctx.session', ctx.session)
+    return new SuccessModel({ message: '登录成功' })
 }
 
 
@@ -82,13 +86,10 @@ const login = async (ctx, userName, password) => {
  * @returns 
  */
 const checkLogin = async (ctx, next) => {
-    console.log('ctx.state===', ctx.state)
-
-    // if (ctx.session && ctx.session.userInfo == null) {
-    //     ctx.session.userInfo = userInfo
-    // }
-
-    return new SuccessModel({})
+    console.log('ctx.state===', ctx.session)
+    if (ctx.session && ctx.session.userInfo) {
+        return new SuccessModel({ message: '已登录', data: ctx.session.userInfo })
+    }
 }
 
 
@@ -134,8 +135,8 @@ const changePassword = async (name, password, newPassword) => {
 
 
 const logout = (ctx) => {
-    delete ctx.state.user
-    return new SuccessModel({ message: '退出登录成功' })
+    delete ctx.session.userInfo
+    return new SuccessModel({ message: '已退出登录！' })
 }
 
 module.exports = {

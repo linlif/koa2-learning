@@ -35,5 +35,9 @@ module.exports = {
     crateBlogFail: {
         errno: 1008,
         message: '创建微博失败！'
+    },
+    loginCheckFailInfo: {
+        errno: 1009,
+        message: '尚未登录'
     }
 }
