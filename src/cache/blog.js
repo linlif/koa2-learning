@@ -14,7 +14,9 @@ const getSquareCacheList = async ({ currentPage, pageSize }) => {
     const key = `${key_prefix} ${currentPage}_${pageSize}`
 
     // 尝试读取缓存
-    const cacheRes = await redis.get(key)
+    let cacheRes = await redis.get(key)
+    cacheRes = JSON.parse(cacheRes || 'null')
+    
     if (cacheRes !== null) {
         return cacheRes
     }
@@ -23,7 +25,7 @@ const getSquareCacheList = async ({ currentPage, pageSize }) => {
         // 没有缓存，读取数据库
         const result = await getBlogByUser({ currentPage, pageSize })
         // 设置缓存
-        redis.set(key, JSON.stringify(result), 'EX', 10) // 1分钟过期
+        redis.set(key, JSON.stringify(result), 'EX', 120) // 1分钟过期
         return result
     } catch (error) {
         console.log('error~~~~', error)
