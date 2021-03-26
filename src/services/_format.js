@@ -11,8 +11,8 @@ const { DEFAULT_PIC } = require('../conf/constants')
  * @param {Object} obj 数据 
  */
 function _formatUserPicture(obj) {
-    if (obj.picture == null) {
-        obj.picture = DEFAULT_PIC
+    if (obj.avatar == null) {
+        obj.avatar = DEFAULT_PIC
     }
     return obj
 }

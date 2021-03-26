@@ -16,7 +16,9 @@ const getSquareCacheList = async ({ currentPage, pageSize }) => {
     // 尝试读取缓存
     let cacheRes = await redis.get(key)
     cacheRes = JSON.parse(cacheRes || 'null')
-    
+
+    console.log('cacheRes', cacheRes)
+
     if (cacheRes !== null) {
         return cacheRes
     }
