@@ -12,13 +12,13 @@ const schema = {
     properties: {
         content: {
             type: 'string',
-            minLength: 0,
+            minLength: 10,
             //  maxLength: 2000
         },
         image: {
             type: 'string',
             minLength: 1,
-            maxLength: 200
+            maxLength: 255
         }
     }
 }
