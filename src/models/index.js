@@ -3,8 +3,9 @@
  * @author Linlif
  */
 
-const User =  require('./User');
-const Blog =  require('./Blog');
+const User = require('./User');
+const Blog = require('./Blog');
+const UserRelation = require('./UserRelation');
 
 
 // 外键关联
@@ -12,10 +13,19 @@ const Blog =  require('./Blog');
 //     foreignKey: 'userId'
 // });
 Blog.belongsTo(User, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    as: 'user'
 });
+
+UserRelation.belongsTo(User, {
+    foreignKey: 'followerId'
+})
+User.hasMany(UserRelation, {
+    foreignKey: 'userId'
+})
 
 module.exports = {
     User,
-    Blog
+    Blog,
+    UserRelation
 }

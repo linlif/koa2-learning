@@ -35,5 +35,17 @@ module.exports = {
     crateBlogFail: {
         errno: 1008,
         message: '创建微博失败！'
+    },
+    loginCheckFailInfo: {
+        errno: 1009,
+        message: '尚未登录！'
+    },
+    queryBlogFail: {
+        errno: 1010,
+        message: '查询个人微博列表失败！'
+    },
+    addFollowerFail: {
+        errno: 1011,
+        message: '添加关注失败！'
     }
 }

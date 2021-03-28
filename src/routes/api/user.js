@@ -32,9 +32,13 @@ router.post('/checkLogin', async (ctx, next) => {
 
 // 修改密码
 router.post('/changePassword', genValidator(userValidate), async (ctx, next) => {
-    console.log('ctx.state', ctx.state)
-    const { password, newPassword } = ctx.request.body,
-        { name } = ctx.state.user;
+    // const { password, newPassword } = ctx.request.body;
+    // // jwt获取用户信息的方式
+    // const { name } = ctx.state.user;
+
+    const { password, newPassword } = ctx.request.body;
+    // koa-session2 + ioredis 获取用户信息的方式
+    const { name } = ctx.session.userInfo;
 
     console.log('name===', name)
 
@@ -43,7 +47,6 @@ router.post('/changePassword', genValidator(userValidate), async (ctx, next) => 
 
 // 推出登录
 router.post('/logout', async (ctx, next) => {
-    console.log('ctx.state', ctx.state)
     ctx.body = logout(ctx)
 });
 
