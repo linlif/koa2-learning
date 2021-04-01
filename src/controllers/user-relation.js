@@ -54,7 +54,6 @@ const follow = async (userId, followerId) => {
     }
 
     const addRes = await addFollower(followerId, userId)
-    console.log(addRes)
     if (addRes != null) {
         return new SuccessModel({
             message: '关注成功',
