@@ -7,8 +7,8 @@ const router = require('koa-router')()
 
 const { getSquareBlogList } = require('../../controllers/blog-square')
 
-router.post('/getSquareBlogList', async (ctx, next) => {
-    const { currentPage, pageSize } = ctx.request.body;
+router.get('/getSquareBlogList', async (ctx, next) => {
+    const { currentPage, pageSize } = ctx.request.query;
     // jwt获取用户信息
     // const { id: userId } = ctx.state.user;
 

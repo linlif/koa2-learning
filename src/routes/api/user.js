@@ -5,9 +5,9 @@ const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
 
 // 判断用户是否存在
-router.post('/isExit', async (ctx, next) => {
-    console.log(' ctx.request.body', ctx.request.query)
-    const { name } = ctx.request.body
+router.get('/isExit', async (ctx, next) => {
+    console.log(' ctx.request.query', ctx.request.query)
+    const { name } = ctx.request.query
     ctx.body = await isUserExit(name)
 });
 
@@ -25,9 +25,8 @@ router.post('/login', async (ctx, next) => {
 });
 
 // 判断是否登录
-router.post('/checkLogin', async (ctx, next) => {
-    const { userName, password } = ctx.request.body
-    ctx.body = await checkLogin(ctx, userName, password)
+router.get('/checkLogin', async (ctx, next) => {
+    ctx.body = await checkLogin(ctx, next)
 });
 
 // 修改密码
@@ -46,7 +45,7 @@ router.post('/changePassword', genValidator(userValidate), async (ctx, next) => 
 });
 
 // 推出登录
-router.post('/logout', async (ctx, next) => {
+router.get('/logout', async (ctx, next) => {
     ctx.body = logout(ctx)
 });
 

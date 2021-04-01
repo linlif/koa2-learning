@@ -7,7 +7,34 @@ const router = require('koa-router')()
 const blogValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
 const { getBlogProfileList } = require('../../controllers/blog-profile')
-const { follow, unFollow } = require('../../controllers/user-relation')
+const { follow, unFollow, getFollowers } = require('../../controllers/user-relation')
+
+// url重定向
+router.get('/', async (ctx, next) => {
+    const { name } = ctx.session.userInfo
+    ctx.redirect(`/profile/${name}`)
+})
+
+// 获取用户信息（自己或他人）
+router.get(`/:name`, async (ctx, next) => {
+    const { name: userName } = ctx.params
+    // ctx.body = { success: true, name }
+
+    const { data: { blogList } = {} } = await getBlogProfileList({
+        userName
+    })
+
+    const { id: userId, name: loginName } = ctx.session.userInfo;
+
+    const { data: { userList } = {} } = await getFollowers(userId)
+
+    ctx.body = {
+        isMe: loginName == userName,
+        blogList,
+        followers: userList
+    }
+})
+
 
 // 获取个人博客列表
 router.post('/getProfileBlogList', async (ctx, next) => {

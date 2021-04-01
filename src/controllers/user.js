@@ -8,12 +8,10 @@ const {
     registerFailInfo,
     userNameIsExit,
     loginFailInfo,
-    changePasswordFailInfo,
-    newPasswordEqualFailInfo
+    changePasswordFailInfo
 } = require('../dataModel/ErrorModel');
 const doCrypto = require('../utils/cryp');
-const { JWT_SECRET_KEY } = require('../conf/secretKeys');
-
+const { addFollower } = require('../services/user-relation')
 
 /**
  * 判断用户名是否存在
@@ -46,6 +44,9 @@ const register = async ({ userName, password, gender }) => {
                 password: doCrypto(password),
                 gender
             })
+
+            // 自己关注自己，方便首页查询关注人微博数据（关注了自己，所以自己的微博也会出现在关注人的微博列表中）
+            await addFollower(userData.id, userData.id)
 
             return new SuccessModel({ message: '注册成功！', data: userData })
         } catch (error) {

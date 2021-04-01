@@ -4,9 +4,7 @@
  * @author linlif
  */
 
-const { Blog, User } = require('../models');
-const { formatUser } = require('./_format');
-
+const { Blog, User, UserRelation } = require('../models');
 
 /**
 * 创建Blog
@@ -37,6 +35,7 @@ const getBlogByUser = async ({ userName, currentPage, pageSize }) => {
     if (userName) {
         userWhereOpts.name = userName
     }
+    console.log('userWhereOpts====', userWhereOpts)
 
     // 执行查询
     const result = await Blog.findAndCountAll({
@@ -57,7 +56,48 @@ const getBlogByUser = async ({ userName, currentPage, pageSize }) => {
     // result.rows 查询结果，数组
     let blogList = result.rows.map(row => row.dataValues)
     blogList.map(blogItem => {
-        console.log('blogItem====', blogItem)
+        const user = blogItem.user.dataValues
+        blogItem.user = user
+        return blogItem
+    })
+
+    return {
+        count: result.count,
+        blogList
+    }
+}
+
+/**
+ * 获取关注者的微博（即首页的微博）
+ * @param {Object} param0 
+ */
+const getFollowerBlogList = async ({ userId, currentPage, pageSize }) => {
+    const result = await Blog.findAndCountAll({
+        limit: pageSize,
+        offset: pageSize * currentPage,
+        order: [
+            ['id', 'desc']
+        ],
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['name', 'avatar', 'gender'],
+                // where: {
+                //     id: userId
+                // }
+            },
+            {
+                model: UserRelation,
+                attributes: ['userId', 'followerId'],
+                where: {
+                    userId
+                }
+            }
+        ]
+    })
+    let blogList = result.rows.map(row => row.dataValues)
+    blogList.map(blogItem => {
         const user = blogItem.user.dataValues
         blogItem.user = user
         return blogItem
@@ -71,5 +111,6 @@ const getBlogByUser = async ({ userName, currentPage, pageSize }) => {
 
 module.exports = {
     createBlog,
-    getBlogByUser
+    getBlogByUser,
+    getFollowerBlogList
 }
