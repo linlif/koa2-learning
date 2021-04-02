@@ -1,6 +1,4 @@
-const Sequelize = require('sequelize');
 const seq = require('../seq');
-
 const { STRING, BOOLEAN, BIGINT, INTEGER, TEXT } = require('../types');
 
 // 创建Modal

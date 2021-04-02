@@ -11,22 +11,53 @@ const { SuccessModel, ErrorModel } = require('../dataModel/ResModel');
 const {
     crateBlogFail
 } = require('../dataModel/ErrorModel');
-const doCrypto = require('../utils/cryp');
-const { JWT_SECRET_KEY } = require('../conf/secretKeys');
-const { PAGE_SIZE } = require('../conf/constants')
+const { PAGE_SIZE, REG_FOR_AT_WHO } = require('../conf/constants')
+const { getUserInfo } = require('../services/user')
+const { createAtRelation } = require('../services/at-relation')
 
 /**
  * 创建接口
  * @param {Object} param0 { userId, content, image }
  */
 const create = async ({ userId, content, image }) => {
+    // 分析并收集content中的@用户 格式如：哈喽 @李四 - lisi 你好 @张三 - zhangsan
+    const atUserNameList = []
+
+    content = content.replace(
+        REG_FOR_AT_WHO,
+        (matchStr, nickName, userName) => {
+            atUserNameList.push(userName)
+            return matchStr // 不做替换，这里只为了提取用户名
+        }
+    )
+
+    // 根据 @ 用户查询用户信息
+    const atUserList = await Promise.all(
+        atUserNameList.map(userName => getUserInfo(userName))
+    )
+
+    // 提取用户的id
+    const atUserIdList = atUserList.map(user => user.id)
+
+    console.log('atUserIdList===', atUserIdList)
+    console.log('createAtRelation===', createAtRelation)
+
     // 调service
     try {
+        // 创建微博
         const blog = await createBlog({
             userId,
             content,
             image
         })
+
+        // 创建@关系
+        await Promise.all(atUserIdList.map(userId => {
+            return createAtRelation({
+                blogId: blog.id,
+                userId
+            })
+        }))
 
         return new SuccessModel({ message: '创建成功！', data: blog })
     } catch (ex) {

@@ -6,7 +6,7 @@
 const User = require('./User');
 const Blog = require('./Blog');
 const UserRelation = require('./UserRelation');
-
+const AtRelation = require('./AtRelations')
 
 // 外键关联
 // User.hasMany(Blog, {
@@ -30,8 +30,14 @@ Blog.belongsTo(UserRelation, {
     targetKey: 'followerId' // 目标表的key
 })
 
+
+Blog.hasMany(AtRelation, {
+    foreignKey: 'blogId' // blogId对应Blog表的id
+})
+
 module.exports = {
     User,
     Blog,
-    UserRelation
+    UserRelation,
+    AtRelation
 }
