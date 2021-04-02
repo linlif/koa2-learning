@@ -39,9 +39,6 @@ const create = async ({ userId, content, image }) => {
     // 提取用户的id
     const atUserIdList = atUserList.map(user => user.id)
 
-    console.log('atUserIdList===', atUserIdList)
-    console.log('createAtRelation===', createAtRelation)
-
     // 调service
     try {
         // 创建微博
@@ -61,7 +58,6 @@ const create = async ({ userId, content, image }) => {
 
         return new SuccessModel({ message: '创建成功！', data: blog })
     } catch (ex) {
-        console.log('createBlog---', ex.message, ex.stack)
         return new ErrorModel({ ...crateBlogFail, error: error.message })
     }
 }

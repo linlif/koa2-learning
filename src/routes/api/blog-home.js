@@ -7,6 +7,7 @@ const router = require('koa-router')()
 const blogValidate = require('../../validator/blog')
 const { genValidator } = require('../../middlewares/validator')
 const { create, getHomeBlogList } = require('../../controllers/blog-home')
+const { getAtMeCount } = require('../../controllers/blog-at')
 
 router.post('/create', genValidator(blogValidate), async (ctx, next) => {
     const { content, image } = ctx.request.body;
@@ -32,5 +33,11 @@ router.post('/getHomeBlogList', async (ctx, next) => {
         currentPage
     })
 })
+
+router.get('/getAtMeCount', async (ctx, next) => {
+    const { id: userId } = ctx.session.userInfo
+    ctx.body = await getAtMeCount(userId)
+})
+
 
 module.exports = router;
