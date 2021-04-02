@@ -3,7 +3,7 @@
  * @author linlif
  */
 
-const { DEFAULT_PIC } = require('../conf/constants')
+const { DEFAULT_PIC, REG_FOR_AT_WHO } = require('../conf/constants')
 
 
 /**
@@ -35,6 +35,43 @@ function formatUser(list) {
     return _formatUserPicture(list)
 }
 
+/**
+ * 格式化微博内容
+ * @param {Object} list 
+ * @returns 
+ */
+function _formatContent(obj) {
+    obj.formatContent = obj.content
+
+    // 格式化 @
+    // 例如： `哈喽 @张三 你好！` ---> `哈喽 <a href="/profile/zhangsan">张三</a> 你好`
+    obj.formatContent = obj.formatContent.replace(REG_FOR_AT_WHO,
+        (matchStr, nickName, userName) => {
+            return `<a href="/profile/${userName}">${nickName}</a>`
+        }
+    )
+
+    return obj
+}
+
+/**
+ * 格式化单条微博或微博列表
+ * @param {Array|Object} list 
+ * @returns 
+ */
+function formatBlog(list) {
+    if (list == null) {
+        return list
+    }
+
+    if (list instanceof Array) {
+        return list.map(_formatContent)
+    }
+
+    return _formatContent(list)
+}
+
 module.exports = {
-    formatUser
+    formatUser,
+    formatBlog
 }

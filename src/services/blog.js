@@ -5,6 +5,7 @@
  */
 
 const { Blog, User, UserRelation } = require('../models');
+const { formatBlog } = require('./_format');
 
 /**
 * 创建Blog
@@ -101,7 +102,7 @@ const getFollowerBlogList = async ({ userId, currentPage, pageSize }) => {
         const user = blogItem.user.dataValues
         blogItem.user = user
         return blogItem
-    })
+    }).map(formatBlog)
 
     return {
         count: result.count,
