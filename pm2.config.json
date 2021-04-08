@@ -1,0 +1,15 @@
+{
+    "apps":{
+        "name":"my koa2",
+        "script":"bin/www",
+        "ignore_watch":[
+            "node_modules",
+            "logs",
+            "uploadFiles"
+        ],
+        "instances":4,
+        "error_file":"./logs/pm2err.log",
+        "out_file":"./logs/pm2outerr.log",
+        "log_date_format":"YYYY-MM-DD HH:mm:ss"
+    }
+}
